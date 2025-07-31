@@ -12,7 +12,7 @@ norm_cfg = dict(type='BN', requires_grad=True)
 # Название датасета из файла urfu_project/dataset.py
 dataset_type = 'WaterDataset'
 # Путь к папке с преобразованным набором данных
-data_root = '/misc/home1/m_imm_freedata/Segmentation/Projects/mmseg_water/landcover.ai_512'
+data_root = '/misc/home1/m_imm_freedata/Segmentation/DeepGlobe_Land/DeepGlobe512'
 # Количество классов для сегментации
 num_classes = 2
 # Размер изображения, который принимает на вход сеть
@@ -20,9 +20,12 @@ crop_size = (512, 512)
 # Количичество эпох для обучения
 max_epochs = 100
 # Функция потерь
-loss = dict(type='FocalLoss', class_weight=[0.9, 1.1])
+loss = [
+        dict(type='CrossEntropyLoss', loss_weight=1.0),
+        dict(type='MSELoss', loss_weight=1.0)
+    ]
 # Размер батча
-batch_size = 16
+batch_size = 8
 gradient_accumulation_steps = 8
 actual_batch_size = batch_size * gradient_accumulation_steps
 # num_workers
@@ -33,7 +36,7 @@ num_workers = 8
 # optimizer = dict(type='AdamW', lr=3e-4, weight_decay=0.001)
 
 # Параметры логирования 
-experiment_name = f'Mask2_{dataset_type}_{crop_size[0]}_{loss["type"]}_bsize_{actual_batch_size}'
+experiment_name = f'Mask2_MSE3_{dataset_type}_{crop_size[0]}_' + '_'.join([l['type'] for l in loss]) + f'_bsize_{actual_batch_size}'
 logs_dir = 'logs'
 work_dir = f'{logs_dir}/{experiment_name}'  # директория для сохранения логов
 log_interval = 10  # интервал в итерациях для печати логов
@@ -77,7 +80,14 @@ custom_keys.update({
 })
 # optimizer
 optim_wrapper = dict(
-    paramwise_cfg=dict(custom_keys=custom_keys, norm_decay_mult=0.0))
+    type='OptimWrapper',
+    optimizer=dict(
+        type='SGD',
+        lr=0.01,  # можно также попробовать 0.001
+        momentum=0.9,
+        weight_decay=5e-4),
+    paramwise_cfg=dict(custom_keys=custom_keys, norm_decay_mult=0.0)
+)
 
 train_pipeline = [
     dict(type='LoadImageFromFile'),

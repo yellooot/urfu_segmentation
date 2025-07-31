@@ -12,7 +12,7 @@ norm_cfg = dict(type='BN', requires_grad=True)
 # Название датасета из файла urfu_project/dataset.py
 dataset_type = 'WaterDataset'
 # Путь к папке с преобразованным набором данных
-data_root = '/misc/home1/m_imm_freedata/Segmentation/Projects/mmseg_water/landcover.ai_512'
+data_root = '/misc/home1/m_imm_freedata/Segmentation/DeepGlobe_Land/DeepGlobe512'
 # Количество классов для сегментации
 num_classes = 2
 # Размер изображения, который принимает на вход сеть
@@ -22,7 +22,7 @@ max_epochs = 100
 # Функция потерь
 loss = dict(type='FocalLoss', class_weight=[0.9, 1.1])
 # Размер батча
-batch_size = 16
+batch_size = 8
 gradient_accumulation_steps = 8
 actual_batch_size = batch_size * gradient_accumulation_steps
 # num_workers

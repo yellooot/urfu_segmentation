@@ -11,7 +11,7 @@ from mmengine.runner import Runner
 from mmseg.registry import RUNNERS
 
 # We must import dataset to register it
-from dataset import LandcoverAI
+from dataset import WaterDataset
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a segmentor')
