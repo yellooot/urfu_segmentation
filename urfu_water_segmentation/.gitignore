@@ -1,5 +1,0 @@
-# Slurm logs
-**/logs/**
-slurm-*
-eval_*.csv
-visualized-*
