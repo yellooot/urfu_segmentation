@@ -1,6 +1,6 @@
 from pathlib import Path
 
-root_dir = Path('/misc/home1/m_imm_freedata/Segmentation/Projects/mmseg_water/landcover.ai_512')
+root_dir = Path('/misc/home6/m_imm_freedata/Segmentation/Projects/mmseg_trees/Trees_DFC_512')
 
 def main():
     train_images = (root_dir / 'train' / 'images').glob("*.tif")
