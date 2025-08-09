@@ -1,9 +1,9 @@
 # для выбора модели, расписания необходимо наследовать один из файлов из репозитория mmsegmentation
 # базовые файлы для наследования можно посмотреть по пути mmsegmentation/configs/_base_/
 _base_ = [
-    '../../configs/_base_/models/deeplabv3plus_r50-d8.py',
-    '../../configs/_base_/default_runtime.py',
-    '../../configs/_base_/schedules/schedule_40k.py'
+    '../../../configs/_base_/models/deeplabv3plus_r50-d8.py',
+    '../../../configs/_base_/default_runtime.py',
+    '../../../configs/_base_/schedules/schedule_40k.py'
 ]
 
 # ----------------------------------------------------------------
@@ -12,11 +12,11 @@ _base_ = [
 # Поскольку мы используем только один графический процессор, вместо SyncBN используется BN
 norm_cfg = dict(type='BN', requires_grad=True)
 
-# Название датасета из файла urfu_project/dataset.py
-dataset_type = 'WaterDataset'
+# Название датасета из файла dataset.py
+dataset_type = 'TreesDataset'
 
 # Путь к папке с преобразованным набором данных
-data_root = '/misc/home1/m_imm_freedata/Segmentation/Projects/mmseg_water/landcover.ai_512'
+data_root = '/misc/home6/m_imm_freedata/Segmentation/Projects/mmseg_trees/Trees_DFC_512'
 
 # Количество классов для сегментации
 num_classes = 2

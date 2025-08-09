@@ -10,20 +10,26 @@ DATASET_COLORMAP = dict(
     roads=(192, 192, 192),
     buildings=(255, 255, 255),
     clouds=(210, 210, 210),
+    smth1=(32, 32, 32),
+    smth2=(64, 64, 64),
+    smth3=(96, 96, 96),
 )
-
-WATER_CLASS_MAPPING = {
-    'tree': 'background',
-    'roads': 'background',
-    'buildings': 'background',
-    'clouds': 'background'
-}
 
 TREES_CLASS_MAPPING = {
     'water': 'background',
     'roads': 'background',
     'buildings': 'background',
     'clouds': 'background',
+    'smth1': 'background',
+    'smth2': 'background',
+    'smth3': 'background',
+}
+
+WATER_CLASS_MAPPING = {
+    'tree': 'background',
+    'roads': 'background',
+    'buildings': 'background',
+    'clouds': 'background'
 }
 
 CLOUDS_CLASS_MAPPING = {

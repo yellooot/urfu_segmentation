@@ -1,7 +1,7 @@
 # для выбора модели, расписания необходимо наследовать один из файлов из репозитория mmsegmentation
 # базовые файлы для наследования можно посмотреть по пути mmsegmentation/configs/_base_/
 _base_ = [
-    '../../configs/mask2former/mask2former_swin-t_8xb2-160k_ade20k-512x512.py',
+    '../../../configs/mask2former/mask2former_swin-t_8xb2-160k_ade20k-512x512.py',
 ]
 
 # ----------------------------------------------------------------
@@ -12,7 +12,7 @@ norm_cfg = dict(type='BN', requires_grad=True)
 # Название датасета из файла urfu_project/dataset.py
 dataset_type = 'TreesDataset'
 # Путь к папке с преобразованным набором данных
-data_root = '/misc/home6/m_imm_freedata/Segmentation/Trees/Trees_DFC_512'
+data_root = '/misc/home6/m_imm_freedata/Segmentation/Projects/mmseg_trees/Trees_DFC_512'
 # Количество классов для сегментации
 num_classes = 2
 # Размер изображения, который принимает на вход сеть
@@ -20,23 +20,21 @@ crop_size = (512, 512)
 # Количичество эпох для обучения
 max_epochs = 100
 # Функция потерь
-loss = [
-        dict(type='DiceLoss', loss_weight=1.0),
-        dict(type='BoundaryLoss', loss_weight=1.0)
-    ]
+loss = dict(type='FocalLoss', class_weight=[0.9, 1.1])
 # Размер батча
 batch_size = 16
 gradient_accumulation_steps = 8
 actual_batch_size = batch_size * gradient_accumulation_steps
 # num_workers
-num_workers = 8
+num_workers = 12
+
 
 # Оптимизатор
 # optimizer = dict(type='SGD', lr=1e-3, momentum=0.9, weight_decay=0.0005)
-# optimizer = dict(type='AdamW', lr=3e-4, weight_decay=0.001)
+optimizer = dict(type='AdamW', lr=3e-4, weight_decay=0.001)
 
 # Параметры логирования 
-experiment_name = f'Mask2_DiceLoss_{dataset_type}_{crop_size[0]}_' + '_'.join([l['type'] for l in loss]) + f'_bsize_{actual_batch_size}'
+experiment_name = f'Mask2_{dataset_type}_{crop_size[0]}_{loss["type"]}_bsize_{actual_batch_size}'
 logs_dir = 'logs'
 work_dir = f'{logs_dir}/{experiment_name}'  # директория для сохранения логов
 log_interval = 10  # интервал в итерациях для печати логов
@@ -97,8 +95,6 @@ train_pipeline = [
 ]
 test_pipeline = [
     dict(type='LoadImageFromFile'),
-    dict(type='Resize', scale=(2048, 512), keep_ratio=True),
-    dict(type='ResizeToMultiple', size_divisor=32),
     dict(type='LoadAnnotations', reduce_zero_label=False),
     dict(type='PackSegInputs')
 ]

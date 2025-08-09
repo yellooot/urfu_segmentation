@@ -4,19 +4,19 @@ from tqdm import tqdm
 
 from pathlib import Path
 
-data_root = Path('/misc/home1/m_imm_freedata/Segmentation/Projects/mmseg_water/landcover.ai_512')
+data_root = Path('/misc/home6/m_imm_freedata/Segmentation/Projects/mmseg_trees/Trees_DFC_512')
 
 def add_palette_for_1ch_gt(input_path: Path, output_path: Path,
                            palette=(
-                                (0, 0, 0),  # 0
-                                (64, 64, 64),  # 1
-                                (128, 128, 128),  # 2
-                                (192, 192, 192),  # 3
-                                (255, 255, 255),  # 4
+                                (0, 0, 0), # background
+                                (32, 32, 32), # ? 
+                                (64, 64, 64), # ? 
+                                (96, 96, 96), # ? 
+                                (128, 128, 128), # trees
                             ),
 ):
-    # Select only water
-    palette_dict = {int(color[0]): int(color[0] == 64) for i, color in enumerate(palette)}
+    # Select only trees
+    palette_dict = {int(color[0]): int(color[0] == 128) for i, color in enumerate(palette)}
     map_fn = np.vectorize(palette_dict.get)
     
     for img_path in tqdm(list(input_path.glob('*.tif'))):
@@ -25,7 +25,7 @@ def add_palette_for_1ch_gt(input_path: Path, output_path: Path,
         im = Image.fromarray(ar).convert('P')
         im.putpalette(np.array(palette, dtype=np.uint8))
         
-        new_image_name = img_path.name.split('.')[0] + '.png'
+        new_image_name = img_path.name.split('.')[0] + '.tif'
         im.save(output_path / new_image_name)
 
 
