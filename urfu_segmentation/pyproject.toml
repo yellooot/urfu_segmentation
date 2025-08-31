@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "urfu_water_segmentation"
+name = "urfu_segmentation"
 version = "0.1.0"
 package-mode = false
 

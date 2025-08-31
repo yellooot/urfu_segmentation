@@ -12,4 +12,4 @@ sbatch -n1 \
     --job-name=mmsegm-trees \
     --ntasks=${GPUS} \
     --ntasks-per-node=${GPUS} \
-    --wrap="srun python ./train.py ./configs/config_trees_mask2former_2.py --launcher slurm"
+    --wrap="srun python ./train.py ./configs/config_trees_mask2former_exp4.py --resume --launcher slurm"
